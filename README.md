@@ -214,8 +214,11 @@ and it does both of those in every single branch.
 Make each of those lines appear **once**. The branches should decide what the
 message *is*, not do the printing.
 
-Running it with a temperature between 32 and 70 prints nothing at all right
-now, which is a second thing the tests will have an opinion about.
+There is a catch. Right now each branch does its own printing, so a
+temperature between 32 and 70 matches no branch and prints nothing. Once the
+printing moves to the end, that same temperature reaches a `print` with no
+message assigned, which raises an `UnboundLocalError`. Give that range a
+branch of its own that sets the message to `"It's a bit chilly."`
 
 ## Debug
 
@@ -257,8 +260,10 @@ Not scored. Do them anyway.
 You may already have come across the
 [match statement](https://www.w3schools.com/python/python_match.asp), which
 Python added in 3.10 as an alternative to a long `if`/`elif` chain. If the
-mood strikes you, try your hand at the match versions of `measure_rain_match`
-and `rounder_match` in `src/bonus_match.py`.
+mood strikes you, try your hand at `measure_rain_match` and `rounder_match` in
+`src/bonus_match.py`. The first is the question above again. The second is new:
+`rounder_match(num, nearest)` takes a number and one of `"up"`, `"down"` or
+`"honest"`, and rounds accordingly. Read its tests for the exact behavior.
 
 To test your code, open `tests/test_bonus_match.py` and remove the
 `@pytest.mark.skip` line above each test.
