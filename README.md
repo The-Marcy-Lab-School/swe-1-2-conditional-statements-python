@@ -96,8 +96,12 @@ pass in. Two questions here turn on exactly that.
 Python also treats some values as **falsy**, meaning they act like `False`
 when a value is used where a condition is expected, which is called a
 **boolean context**: `0`, `0.0`, `""`, `None`, and every empty collection.
-Everything else is **truthy**. That is what lets `if not items:` stand in for "the list
-is empty".
+Everything else is **truthy**. That is what lets `if not items:` stand in for
+"the list is empty".
+
+Everything else really does mean everything else. `if "False":` runs its
+branch, because `"False"` is a string with five characters in it, and Python
+is asking whether the string is empty rather than reading what it says.
 
 ## From Scratch
 
