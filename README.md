@@ -86,14 +86,17 @@ and the failure message will look confusing.
 
 Two questions do print, and they say so.
 
-**Order decides everything.** Python checks the branches of an `if` / `elif`
-chain from the top and stops at the first one that is true. A branch placed
+**Order decides everything.** **Control flow** is the order your lines
+actually run in, and a conditional is one of the few things that changes it.
+Python checks the branches of an `if` / `elif` chain from the top and stops at
+the first one that is true. A branch placed
 after a broader one that already matches can never run, no matter what you
 pass in. Two questions here turn on exactly that.
 
-Python also treats some values as **falsy**, meaning they act like `False` in
-a condition: `0`, `0.0`, `""`, `None`, and every empty collection. Everything
-else is **truthy**. That is what lets `if not items:` stand in for "the list
+Python also treats some values as **falsy**, meaning they act like `False`
+when a value is used where a condition is expected, which is called a
+**boolean context**: `0`, `0.0`, `""`, `None`, and every empty collection.
+Everything else is **truthy**. That is what lets `if not items:` stand in for "the list
 is empty".
 
 ## From Scratch
