@@ -74,9 +74,10 @@ come back to improve it.
 
 ## Before You Start
 
-This assignment builds on assignment 1. You will write functions that take
-parameters and `return` values, and two questions need a parameter with a
-default value. If any of that is fuzzy, go back to assignment 1 first.
+Every question here is a function that takes parameters and returns a value,
+and two of them need a parameter with a default value. Those are not the new
+material. Shore them up first if either feels shaky, because fighting the
+syntax and the branching at the same time is twice the work.
 
 Most of these questions **return** a value rather than printing one. Printing
 shows a human something; returning hands the value back to your code. A
@@ -149,8 +150,8 @@ describe_cart(["a", "b", "c"], "Ada's")
 
 Watch the last word. One item is an `item`, and anything else is `items`.
 
-Recall: this needs a parameter with a default value and an f-string, both from
-assignment 1 (questions 7 and 5).
+Recall: `owner` needs a default value, because the tests call this with only a
+list. An f-string is the tidiest way to build the sentence.
 
 ### Question 4: `greet_by_nickname`
 
