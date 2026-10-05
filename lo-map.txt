@@ -1,0 +1,9 @@
+# Which question covers which learning objective, for lesson 4 (Conditionals).
+
+4.1 = Q1,Q2,Q9       # if/elif chains, and Q9 is the wrong-order case
+4.2 = Q6             # rewriting a chain as a guard clause
+4.3 = Q3,prose       # falsy list and the "False" string are in Before You Start,
+                     # and Q3 uses `if not items:` as the guard
+
+4.4 = Q4             # is None vs not value, which is the whole point of Q4
+4.5 = Q5,Q8,Q10      # Q5 writes one, Q8 and Q10 debug them
