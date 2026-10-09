@@ -55,53 +55,46 @@ You own every line either way, and you will be asked to explain it.
 
 ## Setup
 
-Work in `development/mod-1`. Make a draft branch before you start.
+Clone your repository in `development/mod-1` and then `cd` into it. Set up your virtual environment and make a draft branch before you start.
 
 ```sh
+git clone [your_repo]
+cd [your_repo]
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 git checkout -b draft
 ```
 
-Run `pytest` for everything, or `pytest -k measure_rain` for one question.
-Every push runs the tests on GitHub and reports your score in the **Actions**
-tab.
-
+Run `pytest` to test the entire assignment, or `pytest -k measure_rain` for one question.
+Every push runs the tests on GitHub and reports your score in the **Actions**.
 75% of tests passing counts as complete. Submit at that point even if it is
 not perfect. Treat submitting as a checkpoint rather than a finish line, and
 come back to improve it.
 
+When you are done working on this assignment, turn off your virtual environment by running:
+
+```sh
+deactivate
+```
+
 ## Before You Start
 
+This assignment has three sections:
+
+1. From Scratch
+2. Debug
+3. Modify
+
 Every question here is a function that takes parameters and returns a value,
-and two of them need a parameter with a default value. Those are not the new
-material. Shore them up first if either feels shaky, because fighting the
-syntax and the branching at the same time is twice the work.
+and two functions need a parameter with a default value. Those are not the new
+material. If functions still feel shaky, take time to study them, because fighting the
+syntax and practicing a new skill is twice as hard.
 
 Most of these questions **return** a value rather than printing one. Printing
 shows a human something; returning hands the value back to your code. A
 function that prints where the test expects a return will fail every time,
-and the failure message will look confusing.
-
-Two questions do print, and they say so.
-
-**Order decides everything.** **Control flow** is the order your lines
-actually run in, and a conditional is one of the few things that changes it.
-Python checks the branches of an `if` / `elif` chain from the top and stops at
-the first one that is true. A branch placed
-after a broader one that already matches can never run, no matter what you
-pass in. Two questions here turn on exactly that.
-
-Python also treats some values as **falsy**, meaning they act like `False`
-when a value is used where a condition is expected, which is called a
-**boolean context**: `0`, `0.0`, `""`, `None`, and every empty collection.
-Everything else is **truthy**. That is what lets `if not items:` stand in for
-"the list is empty".
-
-Everything else really does mean everything else. `if "False":` runs its
-branch, because `"False"` is a string with five characters in it, and Python
-is asking whether the string is empty rather than reading what it says.
+and the failure message will look confusing. **Two questions do print, and they say so**.
 
 ## From Scratch
 
@@ -112,15 +105,13 @@ Write your solutions in `src/from_scratch.py`.
 Write a function `measure_rain` that takes a single argument, a number
 `inches`. It should return a message depending on the number of inches:
 
-- 0 inches — `"drought"`
-- less than 2 inches — `"dry"`
-- less than 4 inches — `"average"`
-- less than 6 inches — `"rainy"`
 - 6 or more inches — `"flood"`
+- less than 6 inches — `"rainy"`
+- less than 4 inches — `"average"`
+- less than 2 inches — `"dry"`
+- 0 inches — `"drought"`
 
-Hint: every band after the first is "less than" something, so a value that
-belongs in a later band also satisfies the earlier tests. Which order keeps
-that from happening?
+Hint: be careful about the order that you write your conditions!
 
 ### Question 2: `happy_birthday_pet`
 
@@ -135,9 +126,6 @@ Write a function `happy_birthday_pet` that takes two arguments, a string
 - `"dog"`, 10 or more — `"Boof!"`
 - anything else — `"Happy birthday!"`
 
-Two things decide the answer here, the breed and the age, and only the dog
-needs all three age bands.
-
 ### Question 3: `describe_cart`
 
 Write a function `describe_cart` that takes a list `items` and a string
@@ -147,6 +135,8 @@ the cart.
 ```python
 describe_cart([])
 # "Your cart is empty."
+describe_cart([], "Ada's")
+# "Ada's cart is empty."
 describe_cart(["apple"])
 # "Your cart has 1 item."
 describe_cart(["apple", "pear"])
@@ -155,10 +145,7 @@ describe_cart(["a", "b", "c"], "Ada's")
 # "Ada's cart has 3 items."
 ```
 
-Watch the last word. One item is an `item`, and anything else is `items`.
-
-Recall: `owner` needs a default value, because the tests call this with only a
-list. An f-string is the tidiest way to build the sentence.
+Pay attention to the pluralization of "item". One item is an `item`, and anything else is `items`.
 
 ### Question 4: `greet_by_nickname`
 
@@ -178,8 +165,7 @@ Read those three carefully. Leaving the nickname out and passing an empty
 nickname give different answers, so the function has to tell "nobody gave me
 one" apart from "somebody gave me an empty one".
 
-Hint: `None` and `""` are both falsy, so `if not nickname:` cannot separate
-them. What test asks specifically whether a value is `None`?
+Hint: `None` and `""` are both falsy. How can you tell if a value is one or the other?
 
 ### Question 5: `label_temperature`
 
@@ -204,28 +190,25 @@ color = "green" if light_is_on else "red"
 
 ### Question 6: `wildly_biased_review`
 
-Rewrite `wildly_biased_review` so it uses a guard clause. Keep the behavior
-exactly the same.
+Rewrite `wildly_biased_review` so it uses a single `if` statement but achieves the same result.
 
-A **guard clause** is an `if` statement that returns before the rest of the
-code gets to execute. Used well, it saves you from writing `else` or `elif`
-at all. Here, handle the boring case first and `return`, so the NYC case runs
-without an `else` wrapped around it. The tests check the `else` is gone.
+Hint: what is a **guard clause**?
 
 ### Question 7: `get_weather_report`
 
-Refactor `get_weather_report` so it stops repeating itself. It builds a
-`weather_report` string, prints it, then prints `"And that's your report!"` —
-and it does both of those in every single branch.
+The `get_weather_report` function is incomplete. It doesn't handle temperatures
+between 32 and 70. Give that range a branch of its own that sets the message
+to `"It's a bit chilly."`
 
-Make each of those lines appear **once**. The branches should decide what the
-message *is*, not do the printing.
+However, you will notice that the function is very repetitive: it invokes
+`print(weather_report)` and `print("And that's your report!")` in every conditional
+branch.
 
-There is a catch. Right now each branch does its own printing, so a
-temperature between 32 and 70 matches no branch and prints nothing. Once the
-printing moves to the end, that same temperature reaches a `print` with no
-message assigned, which raises an `UnboundLocalError`. Give that range a
-branch of its own that sets the message to `"It's a bit chilly."`
+Refactor the function so that those two statements each appear once in the entire
+program but still has the same functionality.
+
+Hint: Make each of those lines appear **once**. The branches should decide what the
+message _is_, not do the printing.
 
 ## Debug
 
@@ -251,7 +234,7 @@ which boundary is still missing after that.
 
 ### Question 10: `return_positive_negative_zero`
 
-Someone got *real* clever here and chained conditional expressions together.
+Someone got _real_ clever here and chained conditional expressions together.
 The comparisons are inverted, so `return_positive_negative_zero(5)` hands back
 `"Negative"`. Chaining the inline `if`s also makes the mistake easy to miss,
 because a reader has to hold all three conditions in their head at once to work

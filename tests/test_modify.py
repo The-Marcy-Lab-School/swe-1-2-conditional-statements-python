@@ -58,9 +58,5 @@ def test_get_weather_report(capsys):
     get_weather_report(20)
     assert printed_lines(capsys) == [cold, sign_off]
 
-    # Before the refactor each branch did its own printing, so a temperature
-    # between 32 and 70 printed nothing. Moving the print to the end means
-    # that gap now reaches a print with no message assigned, so the function
-    # needs a branch for it.
     get_weather_report(50)
     assert printed_lines(capsys) == ["It's a bit chilly.", sign_off]
