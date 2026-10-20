@@ -1,7 +1,6 @@
 import inspect
-import random
 
-from modify import get_weather_report, wildly_biased_review
+from modify import get_weather_report, send_message
 
 TEST_SUITE_NAME = "Modify Tests"
 
@@ -10,29 +9,40 @@ def printed_lines(capsys):
     return [line for line in capsys.readouterr().out.splitlines() if line.strip()]
 
 
-def test_wildly_biased_review_uses_a_guard_clause():
-    """wildly_biased_review - uses a guard clause"""
-    source = inspect.getsource(wildly_biased_review)
+def test_send_message_uses_guard_clauses():
+    """send_message - uses guard clauses"""
+    source = inspect.getsource(send_message)
     assert "return" in source
     assert "if" in source
     # A guard clause returns early, so there is no longer an else to fall into
     assert "else" not in source
+    assert "elif" not in source
+
+    # Guard clauses keep the function flat: the def line, the if lines one
+    # level in, and the returns inside them two levels in. Nothing deeper.
+    indents = [len(line) - len(line.lstrip()) for line in source.splitlines() if line.strip()]
+    assert max(indents) <= 8
 
 
-def test_wildly_biased_review_output(capsys):
-    """wildly_biased_review - prints the right message based on location"""
-    wildly_biased_review("NYC")
-    assert printed_lines(capsys) == [
-        "THE GREATEST CITY IN THE WORLD",
-        "THE CITY THAT NEVER SLEEPS",
-        "WOW WHAT A CITY",
-    ]
+def test_send_message_output():
+    """send_message - returns the right message for each check"""
+    assert send_message("ada", "grace", "hi!") == "ada -> grace: hi!"
+    assert send_message("", "grace", "hi!") == "You must be logged in."
+    assert send_message(None, "grace", "hi!") == "You must be logged in."
+    assert send_message("ada", "", "hi!") == "Choose someone to message."
+    assert send_message("ada", "grace", "") == "Message cannot be empty."
 
-    wildly_biased_review("LA")
-    assert printed_lines(capsys) == ["Yea that place is cool I guess"]
+    # 280 characters is the limit, so 280 is sent and 281 is too long
+    assert send_message("ada", "grace", "a" * 280) == f"ada -> grace: {'a' * 280}"
+    assert send_message("ada", "grace", "a" * 281) == "Message is too long."
 
-    wildly_biased_review(f"place_{random.random()}")
-    assert printed_lines(capsys) == ["Yea that place is cool I guess"]
+
+def test_send_message_check_order():
+    """send_message - checks happen in the original order"""
+    assert send_message("", "", "") == "You must be logged in."
+    assert send_message("ada", "", "") == "Choose someone to message."
+    assert send_message("ada", "", "a" * 281) == "Choose someone to message."
+    assert send_message("ada", "grace", "") == "Message cannot be empty."
 
 
 def test_get_weather_report(capsys):

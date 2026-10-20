@@ -1,10 +1,17 @@
-def wildly_biased_review(location):
-    if location == "NYC":
-        print("THE GREATEST CITY IN THE WORLD")
-        print("THE CITY THAT NEVER SLEEPS")
-        print("WOW WHAT A CITY")
+def send_message(username, recipient, message):
+    if username:
+        if recipient:
+            if message:
+                if len(message) <= 280:
+                    return f"{username} -> {recipient}: {message}"
+                else:
+                    return "Message is too long."
+            else:
+                return "Message cannot be empty."
+        else:
+            return "Choose someone to message."
     else:
-        print("Yea that place is cool I guess")
+        return "You must be logged in."
 
 
 def get_weather_report(temperature):
