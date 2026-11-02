@@ -94,7 +94,7 @@ syntax and practicing a new skill is twice as hard.
 Most of these questions **return** a value rather than printing one. Printing
 shows a human something; returning hands the value back to your code. A
 function that prints where the test expects a return will fail every time,
-and the failure message will look confusing. **Two questions do print, and they say so**.
+and the failure message will look confusing. **One question, `get_weather_report`, does print, and it says so**.
 
 ## From Scratch
 
@@ -188,9 +188,11 @@ color = "green" if light_is_on else "red"
 
 ## Modify
 
-### Question 6: `wildly_biased_review`
+### Question 6: `send_message`
 
-Rewrite `wildly_biased_review` so it uses a single `if` statement but achieves the same result.
+`send_message` works, but it is hard to read. To find out when `"Choose someone to message."` is returned, you have to follow its `else` up the page until you reach the `if` at the same indentation.
+
+Rewrite `send_message` with guard clauses so that each condition sits directly above the message it returns, and the line that sends the message is not nested inside any `if`. Keep the checks in the same order. The tests check that the function has no `else` or `elif`, and that no line is indented more than two levels.
 
 Hint: what is a **guard clause**?
 
